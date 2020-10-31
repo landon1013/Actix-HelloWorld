@@ -10,8 +10,12 @@ async fn echo(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
 }
 
-async fn manual_hello() ->impl Responder {
+async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")
+}
+
+async fn manual_bye() -> impl Responder {
+    HttpResponse::Ok().body("Goodbye World!")
 }
 
 #[actix_web::main]
@@ -21,6 +25,7 @@ async fn main() -> std::io::Result<()> {
             .service(hello)
             .service(echo)
             .route("/hey", web::get().to(manual_hello))
+            .route("/bye", web::get().to(manual_bye))
     })
     .bind("127.0.0.1:8080")?
     .run()
